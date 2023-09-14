@@ -5,6 +5,8 @@ const TodoRoutes = require('./routes/TodoRoutes');
 const HabitRoutes = require('./routes/HabitRoutes');
 const DaylyRoutes = require('./routes/DaylyRoutes');
 
+require('dotenv').config()
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -14,12 +16,21 @@ app.use((req, res, next) => {
     next();
 });
 
-mongoose.connect('mongodb://127.0.0.1:27017/prodlist');
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log('Conexión a la base de datos exitosa!');
+}).catch(err => {
+  console.error('Error de conexión a la base de datos:', err);
+});
 
 app.use(TodoRoutes);
 app.use(HabitRoutes);
 app.use(DaylyRoutes);
 
-app.listen(3001, () => {
-  console.log("server is Running");
+const port = process.env.PORT || 3001;
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
