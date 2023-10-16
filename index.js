@@ -40,7 +40,7 @@ app.use(TodoRoutes);
 app.use(HabitRoutes);
 app.use(DaylyRoutes);
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 10000;
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
