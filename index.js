@@ -25,6 +25,17 @@ mongoose.connect(process.env.MONGO_URI, {
   console.error('Error de conexión a la base de datos:', err);
 });
 
+// Función keep-alive
+setInterval(function() {
+    mongoose.connection.db.command({ ping: 1 }, function(err) {
+        if (err) {
+            console.log('No se pudo mantener activa la base de datos: ' + err);
+        } else {
+            console.log('Base de datos activa');
+        }
+    });
+}, 300000); // Ejecuta cada 5 minutos
+
 app.use(TodoRoutes);
 app.use(HabitRoutes);
 app.use(DaylyRoutes);
