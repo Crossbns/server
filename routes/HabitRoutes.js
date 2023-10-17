@@ -10,10 +10,15 @@ router.get('/get-habits', (req, res) => {
 
 router.post('/add-habit', (req, res) => {
     const habit = req.body.habit;
+    console.log(habit); // Verificar los datos recibidos
     HabitModel.create({
         name: habit
-    }).then(result => res.json(result))
-    .catch(err => res.json(err));
+    })
+    .then(result => res.json(result))
+    .catch(err => {
+        console.error(err); // Registrar el error en el servidor
+        res.status(500).json({ message: 'An error occurred' }); // Enviar un mensaje genérico al cliente
+    });
 });
 
 router.put('/update-habit/:id', (req, res) => {
@@ -31,3 +36,4 @@ router.delete('/delete-habit/:id', (req, res) => {
 });
 
 module.exports = router;
+
